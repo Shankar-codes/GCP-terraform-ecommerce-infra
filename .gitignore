@@ -1,0 +1,22 @@
+shankar-gcp-practice-90146801ba3f.json
+Notes.docx
+.terraform
+.terraform.lock.hcl
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Terraform crash logs
+crash.log
+crash.*.log
+
+# Variable files containing secrets
+*.tfvars
+*.tfvars.json
+
+# OS files
+.DS_Store
+Thumbs.db
