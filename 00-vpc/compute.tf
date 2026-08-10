@@ -4,6 +4,7 @@ resource "google_service_account" "web" {
   display_name = "Web Server Service Account"
 }
 
+# Instance Template
 resource "google_compute_instance_template" "web" {
   name_prefix  = "web-template-"
   machine_type = "e2-micro"
@@ -15,7 +16,7 @@ resource "google_compute_instance_template" "web" {
   }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.private.id # no public ip
+    subnetwork = google_compute_subnetwork.private.id
   }
 
   service_account {
@@ -25,23 +26,32 @@ resource "google_compute_instance_template" "web" {
 
   metadata_startup_script = <<-EOF
     #!/bin/bash
-    sudo su -
+
+    set -euxo pipefail
+
+    exec > >(tee /var/log/startup-script.log | logger -t startup-script -s 2>/dev/console) 2>&1
+
+    echo "===== STARTUP SCRIPT STARTED ====="
+
     apt-get update
+
     apt-get install -y nginx
 
     systemctl enable nginx
-    systemctl start nginx
+    systemctl restart nginx
 
-    HOSTNAME=$(hostname)
+    SERVER_NAME=$$(hostname)
 
     cat > /var/www/html/index.html <<HTML
     <html>
       <body>
         <h1>GCP DevOps Platform</h1>
-        <h2>Server: $HOSTNAME</h2>
+        <h2>Server: $${SERVER_NAME}</h2>
       </body>
     </html>
     HTML
+
+    echo "===== STARTUP SCRIPT COMPLETED ====="
   EOF
 
   tags = ["web-server"]
@@ -50,8 +60,14 @@ resource "google_compute_instance_template" "web" {
 # MIG (Managed instance group) creation
 # auto scaling creation
 resource "google_compute_region_instance_group_manager" "web" {
-  name               = "web-mig"
-  region             = var.region
+  name   = "web-mig"
+  region = var.region
+
+  distribution_policy_zones = [
+    "us-central1-a",
+    "us-central1-b"
+  ]
+
   base_instance_name = "web"
 
   version {
