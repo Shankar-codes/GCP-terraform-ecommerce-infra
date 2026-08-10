@@ -48,18 +48,6 @@ resource "google_compute_instance_template" "web" {
 }
 
 # MIG (Managed instance group) creation
-resource "google_compute_region_instance_group_manager" "web" {
-  name               = "web-mig"
-  region             = var.region
-  base_instance_name = "web"
-
-  version {
-    instance_template = google_compute_instance_template.web.id
-  }
-
-  target_size = 2
-}
-
 # auto scaling creation
 resource "google_compute_region_instance_group_manager" "web" {
   name               = "web-mig"

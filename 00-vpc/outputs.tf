@@ -21,3 +21,11 @@ output "router_name" {
 output "nat_name" {
   value = google_compute_router_nat.ecommerce_nat.name
 }
+
+output "load_balancer_ip" {
+  value = google_compute_global_address.web.address
+}
+
+output "instance_group" {
+  value = google_compute_region_instance_group_manager.web.instance_group
+}
