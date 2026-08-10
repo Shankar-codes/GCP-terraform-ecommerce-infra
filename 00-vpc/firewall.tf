@@ -20,3 +20,37 @@ resource "google_compute_firewall" "allow_internal" {
     protocol = "icmp"
   }
 }
+
+# SSH firewall
+resource "google_compute_firewall" "allow_ssh" {
+  name    = "allow-ssh"
+  network = google_compute_network.ecommerce_vpc.name
+
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = [
+    "0.0.0.0/0"
+  ]
+}
+
+# port 80 firewall for nginx web server
+resource "google_compute_firewall" "allow_http" {
+  name    = "allow-http"
+  network = google_compute_network.ecommerce_vpc.name
+
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = [
+    "0.0.0.0/0"
+  ]
+}
