@@ -1,6 +1,7 @@
 variable project_id {
   description = "GCP project ID"
   type        = string
+  default     = "shankar-gcp-practice"
 }
 
 variable region {

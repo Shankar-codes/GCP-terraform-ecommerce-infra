@@ -1,5 +1,5 @@
 # vpc creation
-resource "google_compute_vpc" "ecommerce_vpc" {
+resource "google_compute_network" "ecommerce_vpc" {
   name = "ecommerce-vpc"
   auto_create_subnetworks = false
   routing_mode            = "GLOBAL"

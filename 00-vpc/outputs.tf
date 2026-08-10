@@ -2,6 +2,10 @@ output "vpc_name" {
   value = google_compute_network.ecommerce_vpc.name
 }
 
+output "vpc_id" {
+  value = google_compute_network.ecommerce_vpc.id
+}
+
 output "public_subnet" {
   value = google_compute_subnetwork.public.name
 }

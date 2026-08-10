@@ -1,6 +1,6 @@
 resource "google_compute_firewall" "allow_internal" {
   name    = "allow-internal"
-  network = google_compute_network.ecommerce_vpc.name
+  network = google_compute_network.ecommerce_vpc.id
 
   direction = "INGRESS"
 
@@ -24,7 +24,7 @@ resource "google_compute_firewall" "allow_internal" {
 # SSH firewall
 resource "google_compute_firewall" "allow_ssh" {
   name    = "allow-ssh"
-  network = google_compute_network.ecommerce_vpc.name
+  network = google_compute_network.ecommerce_vpc.id
 
   direction = "INGRESS"
 
@@ -41,7 +41,7 @@ resource "google_compute_firewall" "allow_ssh" {
 # port 80 firewall for nginx web server
 resource "google_compute_firewall" "allow_http" {
   name    = "allow-http"
-  network = google_compute_network.ecommerce_vpc.name
+  network = google_compute_network.ecommerce_vpc.id
 
   direction = "INGRESS"
 
