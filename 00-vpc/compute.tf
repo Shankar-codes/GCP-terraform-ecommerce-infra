@@ -71,4 +71,9 @@ resource "google_compute_region_instance_group_manager" "web" {
   }
 
   target_size = 2
+
+  auto_healing_policies {
+    health_check      = google_compute_health_check.web.id
+    initial_delay_sec = 120
+  }
 }
