@@ -25,7 +25,7 @@ resource "google_compute_instance_template" "web" {
 
   metadata_startup_script = <<-EOF
     #!/bin/bash
-
+    sudo su -
     apt-get update
     apt-get install -y nginx
 
