@@ -54,3 +54,22 @@ resource "google_compute_firewall" "allow_http" {
     "0.0.0.0/0"
   ]
 }
+
+# load balancer firewall
+resource "google_compute_firewall" "allow_web_lb" {
+  name    = "allow-web-lb"
+  network = google_compute_network.ecommerce_vpc.id
+
+  direction = "INGRESS"
+
+  target_tags = ["web-server"]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = [
+    "0.0.0.0/0"
+  ]
+}
