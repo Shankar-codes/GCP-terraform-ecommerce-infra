@@ -15,3 +15,13 @@ resource "google_compute_backend_service" "web" {
     max_utilization = 0.80
   }
 }
+
+resource "google_compute_url_map" "web" {
+  name            = "web-url-map"
+  default_service = google_compute_backend_service.web.id
+}
+
+resource "google_compute_target_http_proxy" "web" {
+  name    = "web-http-proxy"
+  url_map = google_compute_url_map.web.id
+}
